@@ -1,8 +1,9 @@
-
 package me.anshuman.kalam;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class CMSDATA {
 
@@ -12,6 +13,9 @@ public class CMSDATA {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("section")
+    @Expose
+    private String section;
     @SerializedName("phone")
     @Expose
     private String phone;
@@ -21,21 +25,15 @@ public class CMSDATA {
     @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("semester1")
+    @SerializedName("attendance")
     @Expose
-    private String semester1;
-    @SerializedName("semester2")
+    private List<String> attendance = null;
+    @SerializedName("course")
     @Expose
-    private String semester2;
-    @SerializedName("semester3")
+    private String course;
+    @SerializedName("sem")
     @Expose
-    private String semester3;
-    @SerializedName("semester4")
-    @Expose
-    private String semester4;
-    @SerializedName("section")
-    @Expose
-    private String section;
+    private Integer sem;
 
     public String getId() {
         return id;
@@ -51,6 +49,14 @@ public class CMSDATA {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 
     public String getPhone() {
@@ -77,43 +83,28 @@ public class CMSDATA {
         this.email = email;
     }
 
-    public String getSemester1() {
-        return semester1;
+    public List<String> getAttendance() {
+        return attendance;
     }
 
-    public void setSemester1(String semester1) {
-        this.semester1 = semester1;
+    public void setAttendance(List<String> attendance) {
+        this.attendance = attendance;
     }
 
-    public String getSemester2() {
-        return semester2;
+    public String getCourse() {
+        return course;
     }
 
-    public void setSemester2(String semester2) {
-        this.semester2 = semester2;
+    public void setCourse(String course) {
+        this.course = course;
     }
 
-    public String getSemester3() {
-        return semester3;
+    public Integer getSem() {
+        return sem;
     }
 
-    public void setSemester3(String semester3) {
-        this.semester3 = semester3;
+    public void setSem(Integer sem) {
+        this.sem = sem;
     }
 
-    public String getSemester4() {
-        return semester4;
-    }
-
-    public void setSemester4(String semester4) {
-        this.semester4 = semester4;
-    }
-
-    public String getSection() {
-        return section;
-    }
-
-    public void setSection(String section) {
-        this.section = section;
-    }
 }

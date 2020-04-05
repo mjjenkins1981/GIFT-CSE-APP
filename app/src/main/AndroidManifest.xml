@@ -5,17 +5,20 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:allowBackup="true"
         android:name=".MyFirebaseApp"
-        android:usesCleartextTraffic="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher_web"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_launcher_web"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ResourceActivity"></activity>
+        <activity android:name=".CMSWV" />
         <activity android:name=".CMSActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
@@ -26,6 +29,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".TimetableActivity" />
+
+        <service android:name=".MyMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -1,10 +1,13 @@
 package me.anshuman.kalam;
 
 import android.app.ActivityOptions;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,7 +15,9 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -28,6 +33,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.GsonBuilder;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 import com.squareup.picasso.Picasso;
@@ -36,9 +44,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import io.sentry.Sentry;
 
 public class CMSActivity extends AppCompatActivity {
 
@@ -53,12 +68,35 @@ public class CMSActivity extends AppCompatActivity {
         cmslogin = sharedPref.getString("cmslogin", "1000");
         cmspassword = sharedPref.getString("cmspass", "1000");
 
-        final HorizontalScrollView horizontalScrollView = findViewById(R.id.semesterscrollview);
         final ImageView imageView = findViewById(R.id.profilepic);
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                new AlertDialog.Builder(CMSActivity.this)
+                        .setTitle("Logout")
+                        .setMessage("Are you sure you want to log out?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                prefeditor.putBoolean("first", true);
+                                prefeditor.apply();
+                                Toast toast = Toast.makeText(CMSActivity.this, "Logged out successfully", Toast.LENGTH_LONG);
+                                View view2 = toast.getView();
+                                view2.getBackground().setColorFilter(151515, PorterDuff.Mode.SRC_IN);
+                                TextView text = view2.findViewById(android.R.id.message);
+                                text.setTextColor(Color.WHITE);
+                                toast.show();
+                                startActivity(new Intent(CMSActivity.this, MainActivity.class));
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, null).show();
+                return false;
+            }
+        });
         final TextView name = findViewById(R.id.tvname);
         final TextView mail = findViewById(R.id.tvemail);
-        final TextView sem1tv = findViewById(R.id.semester1);
-        TextView timetablebutton = findViewById(R.id.timetablebutton);
+        final TextView timetablebutton = findViewById(R.id.timetablebutton);
+        final TextView resourcebutton = findViewById(R.id.resourcebuttom);
         timetablebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,16 +105,12 @@ public class CMSActivity extends AppCompatActivity {
                 startActivity(i, options.toBundle());
             }
         });
-        final TextView sem2tv = findViewById(R.id.semester2);
-        final TextView sem3tv = findViewById(R.id.semester3);
-        final TextView sem4tv = findViewById(R.id.semester4);
-        final CircularProgressBar bar1 = findViewById(R.id.circularProgressBar);
-        final CircularProgressBar bar2 = findViewById(R.id.circularProgressBar2);
-        final CircularProgressBar bar3 = findViewById(R.id.circularProgressBar3);
-        final CircularProgressBar bar4 = findViewById(R.id.circularProgressBar4);
+        final CardView resourcecard = findViewById(R.id.resourcecard);
+        final RecyclerView aRecycler= findViewById(R.id.attendancerecycler);
+        aRecycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
         final TextView phone = findViewById(R.id.tvphone);
         final Button cache = findViewById(R.id.cache);
-        String requesturl = "http://gift.mirroradda.xyz:8080/api?id=" + cmslogin + "&pass=" + cmspassword;
+        String requesturl = "https://api.ansuman.codes/gift/cms?id=" + cmslogin + "&pass=" + cmspassword;
         final ProgressDialog pd = new ProgressDialog(CMSActivity.this, R.style.DarkProgressBar);
         pd.setMessage("Please Wait");
         pd.show();
@@ -91,28 +125,58 @@ public class CMSActivity extends AppCompatActivity {
                         pd.dismiss();
                     prefeditor.putBoolean("first", false);
                     prefeditor.apply();
+
                     JSONObject jsonObject = new JSONObject(jsonString);
+
 
                     GsonBuilder gsonBuilder = new GsonBuilder();
                     final CMSDATA cmsdata = gsonBuilder.create().fromJson(String.valueOf(jsonObject), CMSDATA.class);
                     mail.setText(cmsdata.getEmail());
-                    bar1.setProgressWithAnimation(Float.parseFloat(cmsdata.getSemester1()), (long) 2500);
-                    bar2.setProgressWithAnimation(Float.parseFloat(cmsdata.getSemester2()), (long) 2500);
-                    bar3.setProgressWithAnimation(Float.parseFloat(cmsdata.getSemester3()), (long) 2500);
-                    horizontalScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-                    bar4.setProgressWithAnimation(Float.parseFloat(cmsdata.getSemester4()), (long) 2500);
-                    sem1tv.setText(cmsdata.getSemester1() + "%");
-                    sem2tv.setText(cmsdata.getSemester2() + "%");
-                    sem3tv.setText(cmsdata.getSemester3() + "%");
+                    System.out.println(cmsdata.getAttendance());
+                    System.out.println((cmsdata.getAttendance()).get(0));
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        NotificationChannel channel = new NotificationChannel("MyNotifications", "MyNotifications", NotificationManager.IMPORTANCE_HIGH);
+                        NotificationManager manager = getSystemService(NotificationManager.class);
+                        assert manager != null;
+                        manager.createNotificationChannel(channel);
+                    }
+                    FirebaseMessaging.getInstance().subscribeToTopic(cmsdata.getSection())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    String msg = "Success " + cmsdata.getSection();
+                                    if (!task.isSuccessful()) {
+                                        msg = "Failed" + cmsdata.getSection();
+                                        //Sentry.capture(msg);
+                                    }
+                                    System.out.println(msg);
+
+                                }
+                            });
+                    AttendanceAdapter attAdapter = new AttendanceAdapter(cmsdata.getAttendance(), CMSActivity.this, cmsdata.getSem());
+                    aRecycler.setAdapter(attAdapter);
                     prefeditor.putString("section", cmsdata.getSection());
                     prefeditor.apply();
-                    sem4tv.setText(cmsdata.getSemester4() + "%");
+                    aRecycler.scrollToPosition(cmsdata.getAttendance().size()-1);
+
+                    if (cmsdata.getSection().contains("CSE")) {
+                        resourcecard.setVisibility(View.VISIBLE);
+                        resourcebutton.setVisibility(View.VISIBLE);
+                        resourcebutton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                startActivity(new Intent(CMSActivity.this, ResourceActivity.class));
+                            }
+                        });
+                    }
+
+
                     if (cmsdata.getId().equals("1801298049")) {
                         cache.setVisibility(View.VISIBLE);
                         cache.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                String url = "http://gift.mirroradda.xyz:8080/api/clear";
+                                String url = "https://api.ansuman.codes/gift/cms/clear";
                                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                                         new Response.Listener<String>() {
                                             @Override
@@ -134,7 +198,17 @@ public class CMSActivity extends AppCompatActivity {
                             }
                         });
                     }
+                    FirebaseMessaging.getInstance().subscribeToTopic(cmsdata.getSection())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (!task.isSuccessful()) {
+                                        String msg = "Failed" + cmsdata.getSection();
+                                        //Sentry.capture(msg);
+                                    }
 
+                                }
+                            });
                     name.setText(cmsdata.getName());
                     phone.setText(cmsdata.getPhone());
                     Picasso.get().load(cmsdata.getPicurl()).into(imageView);
@@ -144,7 +218,21 @@ public class CMSActivity extends AppCompatActivity {
                             ClipboardManager clipboard = (ClipboardManager) Objects.requireNonNull(getSystemService(Context.CLIPBOARD_SERVICE));
                             ClipData clip = ClipData.newPlainText("email", cmsdata.getEmail());
                             clipboard.setPrimaryClip(clip);
-                            Toast.makeText(CMSActivity.this, "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
+                            Toast toast = Toast.makeText(CMSActivity.this, "Copied to Clipboard", Toast.LENGTH_SHORT);
+                            View view2 = toast.getView();
+                            view2.getBackground().setColorFilter(151515, PorterDuff.Mode.SRC_IN);
+                            TextView text = view2.findViewById(android.R.id.message);
+                            text.setTextColor(Color.WHITE);
+                            toast.show();
+                        }
+                    });
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(CMSActivity.this, CMSWV.class);
+                            intent.putExtra("url", "https://cms.gift.edu.in");
+                            startActivity(intent);
                         }
                     });
 
@@ -154,7 +242,12 @@ public class CMSActivity extends AppCompatActivity {
                             ClipboardManager clipboard = (ClipboardManager) Objects.requireNonNull(getSystemService(Context.CLIPBOARD_SERVICE));
                             ClipData clip = ClipData.newPlainText("phone", "+91" + cmsdata.getPhone());
                             clipboard.setPrimaryClip(clip);
-                            Toast.makeText(CMSActivity.this, "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+                            Toast toast = Toast.makeText(CMSActivity.this, "Copied to Clipboard", Toast.LENGTH_SHORT);
+                            View view2 = toast.getView();
+                            view2.getBackground().setColorFilter(151515, PorterDuff.Mode.SRC_IN);
+                            TextView text = view2.findViewById(android.R.id.message);
+                            text.setTextColor(Color.WHITE);
+                            toast.show();
                         }
                     });
 
@@ -172,11 +265,23 @@ public class CMSActivity extends AppCompatActivity {
                     Log.d("Error", error.toString());
                     prefeditor.putBoolean("first", true);
                     prefeditor.apply();
-                    Toast.makeText(CMSActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(CMSActivity.this, "Invalid Credentials", Toast.LENGTH_LONG);
+                    View view2 = toast.getView();
+                    view2.getBackground().setColorFilter(151515, PorterDuff.Mode.SRC_IN);
+                    TextView text = view2.findViewById(android.R.id.message);
+                    text.setTextColor(Color.WHITE);
+                    toast.show();
                     startActivity(new Intent(CMSActivity.this, MainActivity.class));
                 } else {
-                    if (error.networkResponse != null && error.networkResponse.statusCode == 503)
-                        Toast.makeText(CMSActivity.this, "Server Error!!", Toast.LENGTH_LONG).show();
+                    if (error.networkResponse != null && error.networkResponse.statusCode == 503) {
+                        Toast toast = Toast.makeText(CMSActivity.this, "Server Error", Toast.LENGTH_SHORT);
+                        View view2 = toast.getView();
+                        //Sentry.capture(error);
+                        view2.getBackground().setColorFilter(151515, PorterDuff.Mode.SRC_IN);
+                        TextView text = view2.findViewById(android.R.id.message);
+                        text.setTextColor(Color.WHITE);
+                        toast.show();
+                    }
                     Log.d("VolleyError", error.toString());
                 }
             }
@@ -192,3 +297,4 @@ public class CMSActivity extends AppCompatActivity {
 
 
 }
+
