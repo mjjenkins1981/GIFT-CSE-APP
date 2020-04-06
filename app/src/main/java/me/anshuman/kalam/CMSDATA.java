@@ -34,6 +34,9 @@ public class CMSDATA {
     @SerializedName("sem")
     @Expose
     private Integer sem;
+    @SerializedName("timetable")
+    @Expose
+    private String timetable;
 
     public String getId() {
         return id;
@@ -107,4 +110,7 @@ public class CMSDATA {
         this.sem = sem;
     }
 
+    public String getTimetable(){return timetable;}
+
+    public void setTimetable(String timetable){this.timetable=timetable;}
 }
