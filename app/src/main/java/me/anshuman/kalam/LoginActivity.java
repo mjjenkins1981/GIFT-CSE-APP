@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                             imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
                             progressBar.setVisibility(View.VISIBLE);
                             RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                            String url = "https://api.ansuman.codes/gift/cms?id="+id.getText().toString()+"&pass="+password.getText().toString();
+                            String url = "https://gift-rest-api.herokuapp.com/gift/cms?id="+id.getText().toString()+"&pass="+password.getText().toString();
                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                                     new Response.Listener<String>() {
                                         @Override
