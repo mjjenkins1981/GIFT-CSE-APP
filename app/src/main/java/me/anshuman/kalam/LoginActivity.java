@@ -113,14 +113,22 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                         startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                                     }
-                                    if (error.networkResponse != null && error.networkResponse.statusCode == 503){
-                                        Toast toast =  Toast.makeText(LoginActivity.this, "Server Error", Toast.LENGTH_SHORT);
+                                    if (error.networkResponse != null && (error.networkResponse.statusCode == 503||error.networkResponse.statusCode == 502)){
+                                        Toast toast =  Toast.makeText(LoginActivity.this, "Server Error", Toast.LENGTH_LONG);
                                         View view2 = toast.getView();
                                         //Sentry.capture(error);
                                         view2.getBackground().setColorFilter(151515, PorterDuff.Mode.SRC_IN);
                                         TextView text = view2.findViewById(android.R.id.message);
                                         text.setTextColor(Color.WHITE);
                                         toast.show();}
+                                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        assert v != null;
+                                        v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                                    } else {
+                                        assert v != null;
+                                        v.vibrate(500);
+                                    }
                                     Log.d("VolleyError", error.toString());
                                 }
                             });

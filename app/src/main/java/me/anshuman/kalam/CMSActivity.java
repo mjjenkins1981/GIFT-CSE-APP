@@ -44,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -116,7 +117,7 @@ public class CMSActivity extends AppCompatActivity {
         pd.show();
 
         final CacheRequest cacheRequest = new CacheRequest(0, requesturl, new Response.Listener<NetworkResponse>() {
-            @Override
+                @Override
             public void onResponse(final NetworkResponse response) {
                 try {
                     final String jsonString = new String(response.data,
@@ -227,6 +228,19 @@ public class CMSActivity extends AppCompatActivity {
                             toast.show();
                         }
                     });
+                    String timetableurl="https://api.ansuman.codes/gift/tt?link="+cmsdata.getTimetable();
+                    final CacheRequest ttRequest = new CacheRequest(0, timetableurl, new Response.Listener<NetworkResponse>() {
+                    @Override
+                        public void onResponse(final NetworkResponse response) {
+                        System.out.println(Arrays.toString(response.data));
+                    }},new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            System.out.println(error.toString());
+                        }
+                        }
+                            );
+                    queue.add(ttRequest);
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -235,6 +249,7 @@ public class CMSActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     });
+
 
                     phone.setOnClickListener(new View.OnClickListener() {
                         @Override
