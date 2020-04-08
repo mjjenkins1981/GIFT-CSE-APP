@@ -1,4 +1,4 @@
-package me.anshuman.kalam;
+package me.anshuman.kalam.views;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import me.anshuman.kalam.R;
+import me.anshuman.kalam.adapters.ResourceAdapter;
+import me.anshuman.kalam.model.ResourceList;
 
 public class ResourceActivity extends AppCompatActivity {
 

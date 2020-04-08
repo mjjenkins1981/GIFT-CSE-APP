@@ -1,4 +1,4 @@
-package me.anshuman.kalam;
+package me.anshuman.kalam.views;
 
 import android.app.ActivityOptions;
 import android.app.NotificationChannel;
@@ -48,6 +48,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import me.anshuman.kalam.adapters.AttendanceAdapter;
+import me.anshuman.kalam.utils.CacheRequest;
+import me.anshuman.kalam.MainActivity;
+import me.anshuman.kalam.R;
+import me.anshuman.kalam.model.CMSDATA;
 
 public class CMSActivity extends AppCompatActivity {
 

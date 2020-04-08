@@ -1,4 +1,4 @@
-package me.anshuman.kalam;
+package me.anshuman.kalam.utils;
 
 import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
@@ -11,7 +11,7 @@ public class CacheRequest extends Request<NetworkResponse> {
     private final Response.Listener<NetworkResponse> mListener;
     private final Response.ErrorListener mErrorListener;
 
-    CacheRequest(int method, String url, Response.Listener<NetworkResponse> listener, Response.ErrorListener errorListener) {
+    public CacheRequest(int method, String url, Response.Listener<NetworkResponse> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mListener = listener;
         this.mErrorListener = errorListener;

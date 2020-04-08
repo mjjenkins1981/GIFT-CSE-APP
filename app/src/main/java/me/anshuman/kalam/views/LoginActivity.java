@@ -1,4 +1,4 @@
-package me.anshuman.kalam;
+package me.anshuman.kalam.views;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import me.anshuman.kalam.R;
 
 public class LoginActivity extends AppCompatActivity {
     EditText id, password;

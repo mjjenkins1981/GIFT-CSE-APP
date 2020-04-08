@@ -11,10 +11,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +18,9 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import me.anshuman.kalam.ClassDetail;
+import me.anshuman.kalam.model.ClassDetail;
 import me.anshuman.kalam.R;
-import me.anshuman.kalam.RecyclerAdapter;
+import me.anshuman.kalam.adapters.RecyclerAdapter;
 
 
 public class Day extends Fragment {

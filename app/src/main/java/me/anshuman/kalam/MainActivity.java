@@ -9,6 +9,8 @@ import android.preference.PreferenceManager;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import me.anshuman.kalam.views.CMSActivity;
+import me.anshuman.kalam.views.LoginActivity;
 
 
 public class MainActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package me.anshuman.kalam;
+package me.anshuman.kalam.views;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import java.util.Objects;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
+import me.anshuman.kalam.R;
+import me.anshuman.kalam.adapters.SectionsPagerAdapter;
 
 public class TimetableActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;

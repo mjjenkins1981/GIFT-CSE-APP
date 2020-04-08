@@ -1,4 +1,4 @@
-package me.anshuman.kalam;
+package me.anshuman.kalam.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

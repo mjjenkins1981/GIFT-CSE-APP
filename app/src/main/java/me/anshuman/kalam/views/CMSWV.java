@@ -1,6 +1,7 @@
-package me.anshuman.kalam;
+package me.anshuman.kalam.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import me.anshuman.kalam.R;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

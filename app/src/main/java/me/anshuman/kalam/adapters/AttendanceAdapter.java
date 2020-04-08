@@ -1,4 +1,4 @@
-package me.anshuman.kalam;
+package me.anshuman.kalam.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import me.anshuman.kalam.R;
+import me.anshuman.kalam.holders.AttendanceHolder;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceHolder> {
 

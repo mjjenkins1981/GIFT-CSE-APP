@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".MyFirebaseApp"
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher_web"
         android:label="@string/app_name"
@@ -17,10 +16,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ResourceActivity"/>
-        <activity android:name=".CMSWV" />
-        <activity android:name=".CMSActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".views.ResourceActivity"/>
+        <activity android:name=".views.CMSWV" />
+        <activity android:name=".views.CMSActivity" />
+        <activity android:name=".views.LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,9 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TimetableActivity" />
+        <activity android:name=".views.TimetableActivity" />
 
-        <service android:name=".MyMessagingService">
+        <service android:name=".utils.MyMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

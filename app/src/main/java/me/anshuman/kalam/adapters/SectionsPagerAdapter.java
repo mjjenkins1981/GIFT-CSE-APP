@@ -1,4 +1,4 @@
-package me.anshuman.kalam;
+package me.anshuman.kalam.adapters;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -11,7 +11,7 @@ import me.anshuman.kalam.Fragments.Day;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
     String ttjson;
-    SectionsPagerAdapter(FragmentManager fm, String ttjson) {
+    public SectionsPagerAdapter(FragmentManager fm, String ttjson) {
         super(fm);
         this.ttjson=ttjson;
     }

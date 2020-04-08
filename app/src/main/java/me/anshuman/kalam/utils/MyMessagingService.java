@@ -1,4 +1,4 @@
-package me.anshuman.kalam;
+package me.anshuman.kalam.utils;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import java.util.Objects;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import me.anshuman.kalam.MainActivity;
+import me.anshuman.kalam.R;
 
 public class MyMessagingService extends FirebaseMessagingService {
     @Override
@@ -22,7 +24,7 @@ public class MyMessagingService extends FirebaseMessagingService {
             showNotification(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(), remoteMessage.getNotification().getBody(), remoteMessage.getData().get("url"));
     }
     public void showNotification(String title, String message) {
-        Intent intent=new Intent(this,MainActivity.class);
+        Intent intent=new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "MyNotifications")
