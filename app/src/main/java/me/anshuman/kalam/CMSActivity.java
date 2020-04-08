@@ -40,6 +40,7 @@ import com.google.gson.GsonBuilder;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,7 +65,7 @@ public class CMSActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cms);
         final String cmslogin, cmspassword;
         final RequestQueue queue = Volley.newRequestQueue(CMSActivity.this);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor prefeditor = sharedPref.edit();
         cmslogin = sharedPref.getString("cmslogin", "1000");
         cmspassword = sharedPref.getString("cmspass", "1000");
@@ -232,7 +233,14 @@ public class CMSActivity extends AppCompatActivity {
                     final CacheRequest ttRequest = new CacheRequest(0, timetableurl, new Response.Listener<NetworkResponse>() {
                     @Override
                         public void onResponse(final NetworkResponse response) {
-                        System.out.println(Arrays.toString(response.data));
+                        try {
+                            final String jsonString = new String(response.data,
+                                    HttpHeaderParser.parseCharset(response.headers));
+                            prefeditor.putString("ttJSON", jsonString);
+                            prefeditor.apply();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
                     }},new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {

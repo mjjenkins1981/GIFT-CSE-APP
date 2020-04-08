@@ -53,6 +53,7 @@ public class Tue extends Fragment {
                     ClassDetail value = dataSnapshot1.getValue(ClassDetail.class);
                     classDetails.add(value);
                 }
+                System.out.println("Tue"+classDetails);
                 RecyclerAdapter recyclerAdapter = new RecyclerAdapter(classDetails, getContext());
                 recyclerView.setAdapter(recyclerAdapter);
             }
