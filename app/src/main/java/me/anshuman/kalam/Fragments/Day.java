@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,17 +27,19 @@ import me.anshuman.kalam.R;
 import me.anshuman.kalam.RecyclerAdapter;
 
 
-public class Tue extends Fragment {
+public class Day extends Fragment {
+    private Object ClassDetail;
     List<ClassDetail> classDetails;
-    RecyclerView recyclerView;
-
-
+    private RecyclerView recyclerView;
+    public Day(Object classDetail){
+        this.ClassDetail=classDetail;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        View view = inflater.inflate(R.layout.fragment_mon, container, false);
+        View view = inflater.inflate(R.layout.fragment_day, container, false);
         recyclerView = view.findViewById(R.id.recycle);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -44,14 +47,9 @@ public class Tue extends Fragment {
         Gson gson = new GsonBuilder().create();
         Type type = new TypeToken<ArrayList<ClassDetail>>() {
         }.getType();
-        try {
-            JSONObject classdetailobj = new JSONObject(sharedPref.getString("ttJSON", ""));
-            ArrayList<ClassDetail> classDetailArrayList = gson.fromJson(classdetailobj.get("tuesday").toString(), type);
+            ArrayList<ClassDetail> classDetailArrayList = gson.fromJson(ClassDetail.toString(), type);
             RecyclerAdapter recyclerAdapter = new RecyclerAdapter(classDetailArrayList, getContext());
             recyclerView.setAdapter(recyclerAdapter);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         return view;
     }
 

@@ -1,6 +1,8 @@
 package me.anshuman.kalam;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -17,12 +19,14 @@ public class TimetableActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timetable_fragment);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         FragmentManager fragment;
         fragment = Objects.requireNonNull(getSupportFragmentManager());
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(fragment);
+        String ttjson=sharedPref.getString("ttJSON","");
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(fragment,ttjson);
         ViewPager mViewPager = findViewById(R.id.timetable_viewpager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         TabLayout tabLayout = findViewById(R.id.timetable_tabs);

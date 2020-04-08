@@ -1,40 +1,42 @@
 package me.anshuman.kalam;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import me.anshuman.kalam.Fragments.Fri;
-import me.anshuman.kalam.Fragments.Mon;
-import me.anshuman.kalam.Fragments.Sat;
-import me.anshuman.kalam.Fragments.Thu;
-import me.anshuman.kalam.Fragments.Tue;
-import me.anshuman.kalam.Fragments.Wed;
+import me.anshuman.kalam.Fragments.Day;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-    SectionsPagerAdapter(FragmentManager fm) {
+    String ttjson;
+    SectionsPagerAdapter(FragmentManager fm, String ttjson) {
         super(fm);
+        this.ttjson=ttjson;
     }
 
     @NotNull
     @Override
     public Fragment getItem(int position) {
+        try {
+            JSONObject classdetailobj = new JSONObject(ttjson);
         if (position == 0) {
-            return new Mon();
+            return new Day(classdetailobj.get("monday"));
         } else if (position == 1) {
-            return new Tue();
+            return new Day(classdetailobj.get("tuesday"));
         } else if (position == 2) {
-            return new Wed();
+            return new Day(classdetailobj.get("wednesday"));
         } else if (position == 3) {
-            return new Thu();
+            return new Day(classdetailobj.get("thursday"));
         } else if (position == 4) {
-            return new Fri();
+            return new Day(classdetailobj.get("friday"));
         } else if (position == 5) {
-            return new Sat();
+            return new Day(classdetailobj.get("saturday"));
         }
-
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
