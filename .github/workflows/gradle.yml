@@ -26,16 +26,23 @@ jobs:
       env: # Or as an environment variable
         gs_url: ${{ secrets.GS_URL }}
       run: wget -q -O app/google-services.json $gs_url
-    - name: Build with Gradle
+    - name: Build Debug Version
       run: ./gradlew build assembleDebug --stacktrace
-    - name: Move apk
-      run: mkdir -p uploads && mv app/build/outputs/apk/debug/app-debug.apk uploads/
-    - name: Send telegram Message
+    - name: Send Debug Apk
       env:
         bot_token: ${{ secrets.BOT_TOKEN }}
-      run: curl -v --silent -F caption="$(git log --decorate=no --oneline -1)  $(./catbox file uploads/app-debug.apk)" -F chat_id="459034222" -F document=@"$PWD/uploads/app-debug.apk" https://api.telegram.org/bot$bot_token/sendDocument
-    - name: Upload APK
-      uses: actions/upload-artifact@v2-preview
+      run: curl -v --silent -F caption="$(git log --decorate=no --oneline -1)  $(./catbox file app/build/outputs/apk/debug/app-debug.apk)" -F chat_id="459034222" -F document=@"$PWD/app/build/outputs/apk/debug/app-debug.apk" https://api.telegram.org/bot$bot_token/sendDocument
+    - name: Build Release Version
+      run: ./gradlew build assembleRelease --stacktrace
+    - name: Sign Release apk
+      uses: r0adkll/sign-android-release@v1
       with:
-        name: app.apk
-        path: uploads/app-debug.apk
+        releaseDirectory: app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+    - name: Send Release apk
+      env:
+         bot_token: ${{ secrets.BOT_TOKEN }}
+      run: curl -v --silent -F caption="$(git log --decorate=no --oneline -1)  $(./catbox file $SIGNED_RELEASE_FILE)" -F chat_id="459034222" -F document=@"$SIGNED_RELEASE_FILE" https://api.telegram.org/bot$bot_token/sendDocument
