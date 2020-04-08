@@ -7,11 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
-
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import believe.cht.fadeintextview.TextView;
 
 
 public class MainActivity extends AppCompatActivity {

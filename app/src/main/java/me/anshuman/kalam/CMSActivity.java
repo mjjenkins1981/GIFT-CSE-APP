@@ -15,11 +15,8 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,16 +34,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.GsonBuilder;
-import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -55,7 +48,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.sentry.Sentry;
 
 public class CMSActivity extends AppCompatActivity {
 
@@ -108,8 +100,8 @@ public class CMSActivity extends AppCompatActivity {
             }
         });
         final CardView resourcecard = findViewById(R.id.resourcecard);
-        final RecyclerView aRecycler= findViewById(R.id.attendancerecycler);
-        aRecycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
+        final RecyclerView aRecycler = findViewById(R.id.attendancerecycler);
+        aRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         final TextView phone = findViewById(R.id.tvphone);
         final Button cache = findViewById(R.id.cache);
         String requesturl = "https://gift-rest-api.herokuapp.com/gift/cms?id=" + cmslogin + "&pass=" + cmspassword;
@@ -118,7 +110,7 @@ public class CMSActivity extends AppCompatActivity {
         pd.show();
 
         final CacheRequest cacheRequest = new CacheRequest(0, requesturl, new Response.Listener<NetworkResponse>() {
-                @Override
+            @Override
             public void onResponse(final NetworkResponse response) {
                 try {
                     final String jsonString = new String(response.data,
@@ -142,7 +134,7 @@ public class CMSActivity extends AppCompatActivity {
                         assert manager != null;
                         manager.createNotificationChannel(channel);
                     }
-                    FirebaseMessaging.getInstance().subscribeToTopic(cmsdata.getSection())
+                    FirebaseMessaging.getInstance().subscribeToTopic("OK")
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -159,7 +151,7 @@ public class CMSActivity extends AppCompatActivity {
                     aRecycler.setAdapter(attAdapter);
                     prefeditor.putString("section", cmsdata.getSection());
                     prefeditor.apply();
-                    aRecycler.scrollToPosition(cmsdata.getAttendance().size()-1);
+                    aRecycler.scrollToPosition(cmsdata.getAttendance().size() - 1);
 
                     if (cmsdata.getSection().contains("CSE")) {
                         resourcecard.setVisibility(View.VISIBLE);
@@ -229,25 +221,26 @@ public class CMSActivity extends AppCompatActivity {
                             toast.show();
                         }
                     });
-                    String timetableurl="https://api.ansuman.codes/gift/tt?link="+cmsdata.getTimetable();
+                    String timetableurl = "https://api.ansuman.codes/gift/tt?link=" + cmsdata.getTimetable();
                     final CacheRequest ttRequest = new CacheRequest(0, timetableurl, new Response.Listener<NetworkResponse>() {
-                    @Override
+                        @Override
                         public void onResponse(final NetworkResponse response) {
-                        try {
-                            final String jsonString = new String(response.data,
-                                    HttpHeaderParser.parseCharset(response.headers));
-                            prefeditor.putString("ttJSON", jsonString);
-                            prefeditor.apply();
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
+                            try {
+                                final String jsonString = new String(response.data,
+                                        HttpHeaderParser.parseCharset(response.headers));
+                                prefeditor.putString("ttJSON", jsonString);
+                                prefeditor.apply();
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }},new Response.ErrorListener() {
+                    }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             System.out.println(error.toString());
                         }
-                        }
-                            );
+                    }
+                    );
                     queue.add(ttRequest);
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override

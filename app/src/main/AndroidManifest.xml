@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ResourceActivity"></activity>
+        <activity android:name=".ResourceActivity"/>
         <activity android:name=".CMSWV" />
         <activity android:name=".CMSActivity" />
         <activity android:name=".LoginActivity" />

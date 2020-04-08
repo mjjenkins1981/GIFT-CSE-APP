@@ -1,28 +1,22 @@
 package me.anshuman.kalam;
 
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ResourceActivity extends AppCompatActivity {
 
@@ -30,7 +24,7 @@ public class ResourceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resource);
-        final RecyclerView mRecyclerView= findViewById(R.id.resourcerecycler);
+        final RecyclerView mRecyclerView = findViewById(R.id.resourcerecycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -42,14 +36,14 @@ public class ResourceActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            List<ResourceList> resourcelist=new ArrayList<>();
+                            List<ResourceList> resourcelist = new ArrayList<>();
                             for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                ResourceList value= new ResourceList(document.getString("link"),document.getString("name"));
+                                ResourceList value = new ResourceList(document.getString("link"), document.getString("name"));
                                 resourcelist.add(value);
                             }
-                             ResourceAdapter myAdapter= new ResourceAdapter(resourcelist,ResourceActivity.this);
-                             mRecyclerView.setAdapter(myAdapter);
+                            ResourceAdapter myAdapter = new ResourceAdapter(resourcelist, ResourceActivity.this);
+                            mRecyclerView.setAdapter(myAdapter);
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
@@ -58,4 +52,4 @@ public class ResourceActivity extends AppCompatActivity {
 
     }
 
-    }
+}

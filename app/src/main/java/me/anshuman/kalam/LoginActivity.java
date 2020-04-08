@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -32,7 +31,6 @@ import com.android.volley.toolbox.Volley;
 import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
-import io.sentry.Sentry;
 
 public class LoginActivity extends AppCompatActivity {
     EditText id, password;

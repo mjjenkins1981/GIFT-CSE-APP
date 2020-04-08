@@ -14,6 +14,10 @@
 -keepattributes Signature
 
 -keep class !me.anshuman.kalam.** { *; }
+-keepclassmembers,allowobfuscation class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+  }
+-keep,allowobfuscation @interface com.google.gson.annotations.SerializedName
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
