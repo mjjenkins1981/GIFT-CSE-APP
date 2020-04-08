@@ -27,15 +27,15 @@ jobs:
         gs_url: ${{ secrets.GS_URL }}
       run: wget -q -O app/google-services.json $gs_url
     - name: Build with Gradle
-      run: ./gradlew build assembleRelease --stacktrace
+      run: ./gradlew build assembleDebug --stacktrace
     - name: Move apk
-      run: mkdir -p uploads && mv app/build/outputs/apk/release/app-release-unsigned.apk uploads/app-release.apk
+      run: mkdir -p uploads && mv app/build/outputs/apk/debug/app-debug.apk uploads/
     - name: Send telegram Message
       env:
         bot_token: ${{ secrets.BOT_TOKEN }}
-      run: curl -v --silent -F caption="$(git log --decorate=no --oneline -1)  $(./catbox file uploads/app-release.apk)" -F chat_id="459034222" -F document=@"$PWD/uploads/app-release.apk" https://api.telegram.org/bot$bot_token/sendDocument
+      run: curl -v --silent -F caption="$(git log --decorate=no --oneline -1)  $(./catbox file uploads/app-debug.apk)" -F chat_id="459034222" -F document=@"$PWD/uploads/app-debug.apk" https://api.telegram.org/bot$bot_token/sendDocument
     - name: Upload APK
       uses: actions/upload-artifact@v2-preview
       with:
         name: app.apk
-        path: uploads/app-release.apk
+        path: uploads/app-debug.apk
