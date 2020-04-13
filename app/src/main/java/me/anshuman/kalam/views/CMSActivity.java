@@ -109,7 +109,7 @@ public class CMSActivity extends AppCompatActivity {
         aRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         final TextView phone = findViewById(R.id.tvphone);
         final Button cache = findViewById(R.id.cache);
-        String requesturl = "https://gift-rest-api.herokuapp.com/gift/cms?id=" + cmslogin + "&pass=" + cmspassword;
+        String requesturl = "https://api.ansuman.codes/gift/cms?id=" + cmslogin + "&pass=" + cmspassword;
         final ProgressDialog pd = new ProgressDialog(CMSActivity.this, R.style.DarkProgressBar);
         pd.setMessage("Please Wait");
         pd.show();
@@ -235,6 +235,8 @@ public class CMSActivity extends AppCompatActivity {
                                         HttpHeaderParser.parseCharset(response.headers));
                                 prefeditor.putString("ttJSON", jsonString);
                                 prefeditor.apply();
+                                timetablebutton.setVisibility(View.VISIBLE);
+
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
                             }

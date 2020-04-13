@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -80,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                             imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
                             progressBar.setVisibility(View.VISIBLE);
                             RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                            String url = "https://gift-rest-api.herokuapp.com/gift/cms?id="+id.getText().toString()+"&pass="+password.getText().toString();
+                            String url = "https://api.ansuman.codes/gift/cms?id="+id.getText().toString()+"&pass="+password.getText().toString();
                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                                     new Response.Listener<String>() {
                                         @Override
@@ -131,7 +132,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d("VolleyError", error.toString());
                                 }
                             });
-                            queue.add(stringRequest);
+                            queue.add(stringRequest.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT) {
+                            }));
                         }
                         else{
                             Toast toast = Toast.makeText(LoginActivity.this, "No internet Connection", Toast.LENGTH_LONG);

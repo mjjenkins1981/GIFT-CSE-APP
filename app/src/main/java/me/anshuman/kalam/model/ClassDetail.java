@@ -7,9 +7,6 @@ import androidx.annotation.Keep;
 
 @Keep
 public class ClassDetail {
-    @SerializedName("end")
-    @Expose
-    private String end;
     @SerializedName("subject")
     @Expose
     private String subject;
@@ -23,10 +20,9 @@ public class ClassDetail {
     @Expose
     private String room;
 
-    public ClassDetail(String start, String end, String subject, String faculty, String room) {
+    public ClassDetail(String start, String subject, String faculty, String room) {
         this.subject = subject;
         this.start = start;
-        this.end = end;
         this.faculty = faculty;
         this.room = room;
     }
@@ -50,14 +46,6 @@ public class ClassDetail {
 
     public void setStart(String start) {
         this.start = start;
-    }
-
-    public String getEnd() {
-        return end;
-    }
-
-    public void setEnd(String end) {
-        this.end = end;
     }
 
     public String getFaculty() {
