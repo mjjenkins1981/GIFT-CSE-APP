@@ -130,9 +130,16 @@ public class LoginActivity extends AppCompatActivity {
                                         v.vibrate(500);
                                     }
                                     Log.d("VolleyError", error.toString());
+                                    Toast toast =  Toast.makeText(LoginActivity.this, "Please click on the login Button Again", Toast.LENGTH_LONG);
+                                    View view2 = toast.getView();
+                                    //Sentry.capture(error);
+                                    view2.getBackground().setColorFilter(151515, PorterDuff.Mode.SRC_IN);
+                                    TextView text = view2.findViewById(android.R.id.message);
+                                    text.setTextColor(Color.WHITE);
+                                    toast.show();
                                 }
                             });
-                            queue.add(stringRequest.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT) {
+                            queue.add(stringRequest.setRetryPolicy(new DefaultRetryPolicy(7000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT) {
                             }));
                         }
                         else{

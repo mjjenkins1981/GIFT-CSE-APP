@@ -29,7 +29,7 @@
             android:textCursorDrawable="@drawable/cursor_color"
             android:layout_marginLeft="10dp"
             android:background="@android:color/transparent"
-            android:hint="Password"
+            android:hint="CMS Password"
             android:cursorVisible="true"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
@@ -60,7 +60,7 @@
             android:layout_marginLeft="10dp"
             android:textCursorDrawable="@drawable/cursor_color"
             android:background="@android:color/transparent"
-            android:hint="Login"
+            android:hint="CMS Login"
             android:inputType="textPersonName"
             android:selectAllOnFocus="true" />
     </androidx.cardview.widget.CardView>

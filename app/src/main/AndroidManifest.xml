@@ -29,7 +29,8 @@
         </activity>
         <activity android:name=".views.TimetableActivity" />
 
-        <service android:name=".utils.MyMessagingService">
+        <service android:name=".utils.MyMessagingService"
+            android:permission="TODO">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
