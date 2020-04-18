@@ -121,16 +121,7 @@ public class CMSActivity extends AppCompatActivity {
         });
 
         final TextView mail = findViewById(R.id.tvemail);
-        final TextView timetablebutton = findViewById(R.id.timetablebutton);
         final TextView resourcebutton = findViewById(R.id.resourcebuttom);
-        timetablebutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(CMSActivity.this);
-                Intent i = new Intent(CMSActivity.this, TimetableActivity.class);
-                startActivity(i, options.toBundle());
-            }
-        });
         final CardView resourcecard = findViewById(R.id.resourcecard);
         final RecyclerView aRecycler = findViewById(R.id.attendancerecycler);
         aRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -262,7 +253,6 @@ public class CMSActivity extends AppCompatActivity {
                                         HttpHeaderParser.parseCharset(response.headers));
                                 prefeditor.putString("ttJSON", jsonString);
                                 prefeditor.apply();
-                                timetablebutton.setVisibility(View.VISIBLE);
 
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
