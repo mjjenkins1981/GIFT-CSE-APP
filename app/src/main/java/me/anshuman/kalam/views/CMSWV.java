@@ -24,7 +24,7 @@ public class CMSWV extends AppCompatActivity {
         String url=getIntent().getStringExtra("url");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cmswv);
-        WebView myWebView = findViewById(R.id.cmswv);
+        final WebView myWebView = findViewById(R.id.cmswv);
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.getSettings().setBuiltInZoomControls(true);
         myWebView.getSettings().setSupportZoom(true);
@@ -42,6 +42,7 @@ public class CMSWV extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 findViewById(R.id.progressBar2).setVisibility(View.GONE);
+
             }
             @SuppressWarnings("deprecation")
             @Override

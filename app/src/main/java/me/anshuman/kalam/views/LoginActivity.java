@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                                     toast.show();
                                 }
                             });
-                            queue.add(stringRequest.setRetryPolicy(new DefaultRetryPolicy(7000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT) {
+                            queue.add(stringRequest.setRetryPolicy(new DefaultRetryPolicy(15000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT) {
                             }));
                         }
                         else{

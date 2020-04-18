@@ -15,6 +15,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -96,9 +97,10 @@ public class CMSActivity extends AppCompatActivity {
         });
         final TextView name = findViewById(R.id.tvname);
         //Set Bottom nav
-        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_nav);
+        final BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_nav);
         //Set current id
         bottomNavigationView.setSelectedItemId(R.id.cms);
+        bottomNavigationView.getMenu().getItem(1).setVisible(false);
               //Set listener
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -253,7 +255,7 @@ public class CMSActivity extends AppCompatActivity {
                                         HttpHeaderParser.parseCharset(response.headers));
                                 prefeditor.putString("ttJSON", jsonString);
                                 prefeditor.apply();
-
+                                bottomNavigationView.getMenu().getItem(1).setVisible(true);
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
                             }
