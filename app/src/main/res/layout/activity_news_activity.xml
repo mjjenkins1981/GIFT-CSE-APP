@@ -1,63 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".views.news_activity"
     android:orientation="vertical">
-
 
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
+        android:id="@+id/notice_tabs"
         android:layout_alignParentTop="true"
         android:layout_height="wrap_content"
-        android:id="@+id/timetable_tabs"
-        app:tabMode="scrollable">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monday" />
+            android:text="News" />
+
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tuesday" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wednesday" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thursday" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Friday" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Saturday" />
-
+            android:text="Exam" />
     </com.google.android.material.tabs.TabLayout>
-
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/timetable_viewpager"
-        android:layout_below="@id/timetable_tabs"
         android:layout_width="match_parent"
+        android:layout_below="@id/notice_tabs"
         android:layout_above="@id/bottom_nav"
-        android:layout_height="match_parent" />
+        android:id="@+id/notice_viewpager"
+        android:layout_height="match_parent"/>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:id="@+id/bottom_nav"
         android:layout_height="wrap_content"
         app:menu="@menu/menu_nav"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentBottom="true">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 </RelativeLayout>

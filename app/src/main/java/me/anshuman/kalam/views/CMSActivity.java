@@ -15,6 +15,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,6 +33,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
@@ -93,6 +95,31 @@ public class CMSActivity extends AppCompatActivity {
             }
         });
         final TextView name = findViewById(R.id.tvname);
+        //Set Bottom nav
+        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_nav);
+        //Set current id
+        bottomNavigationView.setSelectedItemId(R.id.cms);
+              //Set listener
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.timetable:
+                        startActivity(new Intent(getApplicationContext(),TimetableActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.cms:
+                        return true;
+                    case R.id.notice:
+                        startActivity(new Intent(getApplicationContext(),news_activity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+
+                return false;
+            }
+        });
+
         final TextView mail = findViewById(R.id.tvemail);
         final TextView timetablebutton = findViewById(R.id.timetablebutton);
         final TextView resourcebutton = findViewById(R.id.resourcebuttom);

@@ -16,7 +16,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".views.ResourceActivity"/>
+        <activity android:name=".views.news_activity"></activity>
+        <activity android:name=".views.ResourceActivity" />
         <activity android:name=".views.CMSWV" />
         <activity android:name=".views.CMSActivity" />
         <activity android:name=".views.LoginActivity" />
@@ -29,7 +30,8 @@
         </activity>
         <activity android:name=".views.TimetableActivity" />
 
-        <service android:name=".utils.MyMessagingService"
+        <service
+            android:name=".utils.MyMessagingService"
             android:permission="TODO">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

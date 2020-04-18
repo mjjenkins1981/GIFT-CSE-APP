@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/cms"
+    android:title="CMS"
+    android:icon="@drawable/white_error"/>
+    <item
+        android:id="@+id/timetable"
+        android:title="timetable"
+        android:icon="@drawable/white_error"/>
+    <item
+        android:id="@+id/notice"
+        android:title="notice"
+        android:icon="@drawable/white_error"/>
+
+</menu>
