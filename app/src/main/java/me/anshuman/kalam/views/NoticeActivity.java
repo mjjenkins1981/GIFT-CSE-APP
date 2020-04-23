@@ -2,26 +2,44 @@ package me.anshuman.kalam.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 import me.anshuman.kalam.R;
+import me.anshuman.kalam.adapters.NoticePagerAdapter;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
 
-public class news_activity extends AppCompatActivity {
+import java.util.Objects;
+
+public class NoticeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_activity);
+        setContentView(R.layout.activity_notice);
+
+        FragmentManager fragment;
+        fragment = Objects.requireNonNull(getSupportFragmentManager());
+
+        NoticePagerAdapter noticePagerAdapter = new NoticePagerAdapter(fragment);
+        ViewPager mViewPager = findViewById(R.id.notice_viewpager);
+        mViewPager.setAdapter(noticePagerAdapter);
+        TabLayout tabLayout = findViewById(R.id.notice_tabs);
+
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         //Set Bottom nav
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_nav);
         //Set current id
         bottomNavigationView.setSelectedItemId(R.id.notice);
         //Set listener
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){

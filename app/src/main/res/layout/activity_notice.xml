@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.news_activity"
+    tools:context=".views.NoticeActivity"
     android:orientation="vertical">
 
     <com.google.android.material.tabs.TabLayout
@@ -32,6 +32,7 @@
         android:layout_below="@id/notice_tabs"
         android:layout_above="@id/bottom_nav"
         android:id="@+id/notice_viewpager"
+        android:layout_marginBottom="5dp"
         android:layout_height="match_parent"/>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

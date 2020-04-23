@@ -1,6 +1,5 @@
 package me.anshuman.kalam.views;
 
-import android.app.ActivityOptions;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
@@ -15,7 +14,6 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -113,7 +111,7 @@ public class CMSActivity extends AppCompatActivity {
                     case R.id.cms:
                         return true;
                     case R.id.notice:
-                        startActivity(new Intent(getApplicationContext(),news_activity.class));
+                        startActivity(new Intent(getApplicationContext(), NoticeActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                 }
@@ -129,7 +127,7 @@ public class CMSActivity extends AppCompatActivity {
         aRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         final TextView phone = findViewById(R.id.tvphone);
         final Button cache = findViewById(R.id.cache);
-        String requesturl = "https://api.ansuman.codes/gift/cms?id=" + cmslogin + "&pass=" + cmspassword;
+        String requesturl = "http://api.ansuman.xyz:12123/gift/cms?id=" + cmslogin + "&pass=" + cmspassword;
         final ProgressDialog pd = new ProgressDialog(CMSActivity.this, R.style.DarkProgressBar);
         pd.setMessage("Please Wait");
         pd.show();

@@ -48,7 +48,7 @@ public class TimetableActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.notice:
-                        startActivity(new Intent(getApplicationContext(),news_activity.class));
+                        startActivity(new Intent(getApplicationContext(), NoticeActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                 }
