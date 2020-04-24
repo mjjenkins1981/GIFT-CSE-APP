@@ -3,6 +3,9 @@ package me.anshuman.kalam.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class NoticeData {
 
     @SerializedName("num")
